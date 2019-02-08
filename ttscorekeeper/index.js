@@ -34,7 +34,9 @@ const undoButton = document.querySelector('.undo-button')
 
 const announce = what => {
   const announcement = new SpeechSynthesisUtterance(what)
+  const voices = speechSynthesis.getVoices()
 
+  announcement.voice = nth(1, voices)
   announcement.rate = 0.8
 
   speechSynthesis.cancel()
@@ -126,8 +128,6 @@ const createNewState = (
 
 const createInitialState = () => {
   const server = Math.floor(Math.random() * 2) + 1
-
-  announce(`${identical(server, 1) ? 'red' : 'blue'} starts serving`)
 
   return [
     {
