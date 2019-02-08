@@ -1,0 +1,88 @@
+* {
+  margin: 0;
+  padding: 0;
+  user-select: none;
+}
+
+html,
+body {
+  height: 100%;
+  font-family: arial;
+}
+
+.container {
+  height: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+.player {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1 1 100%;
+}
+
+.player-1 {
+  background-color: #d13414;
+}
+
+.player-2 {
+  background-color: #1495d1;
+}
+
+.score {
+  font-size: 12rem;
+  font-weight: 700;
+  color: white;
+}
+
+.set-score {
+  position: absolute;
+  top: 1rem;
+  right: 2rem;
+  font-size: 3rem;
+  font-weight: 700;
+  color: white;
+}
+
+.server {
+  display: none;
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 3rem;
+  background-color: white;
+}
+
+.server.current {
+  display: block;
+}
+
+.buttons {
+  display: flex;
+  flex: 1 1 20%;
+}
+
+.button {
+  font-size: 2rem;
+  font-weight: 700;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+  flex: 1 1 auto;
+}
+
+.undo-button {
+  background-color: #303030;
+  color: #ccc;
+}
+
+.reset-button {
+  background-color: #202020;
+  color: #888;
+}

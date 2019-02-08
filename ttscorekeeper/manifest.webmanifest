@@ -1,0 +1,22 @@
+{
+  "name": "TTScoreKeeper",
+  "short_name": "TTScoreKeeper",
+  "start_url": "/ttscorekeeper/",
+  "display": "standalone",
+  "theme_color": "#282828",
+  "background_color": "#282828",
+  "description": "An app to keep the score in table tennis.",
+
+  "icons": [
+    {
+      "src": "/ttscorekeeper/logo-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/ttscorekeeper/logo-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "name": "ttscorekeeper",
+  "scripts": {
+    "start": "python -m SimpleHTTPServer"
+  }
+}
