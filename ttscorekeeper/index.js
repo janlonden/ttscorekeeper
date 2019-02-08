@@ -19,8 +19,8 @@ const {
   __
 } = R
 
-const { Subject, fromEvent } = rxjs
-const { startWith, scan, map, throttleTime, tap, share } = rxjs.operators
+const { Subject, fromEvent, operators } = rxjs
+const { startWith, scan, map, throttleTime, tap, shareReplay } = operators
 const player1 = document.querySelector('.player-1')
 const player1Score = player1.querySelector('.score')
 const player1SetScore = player1.querySelector('.set-score')
@@ -165,18 +165,18 @@ const store = storeSubject.pipe(
       ]
     ])(type)
 
-    // console.log('type: ', type)
-    // console.log('prev state:')
-    // console.table(last(state))
-    // console.log('next state:')
-    // console.table(last(newState))
-    // console.log('\n-------------------------------------------\n\n')
+    console.log('type: ', type)
+    console.log('prev state:')
+    console.table(last(state))
+    console.log('next state:')
+    console.table(last(newState))
+    console.log('\n-------------------------------------------\n\n')
 
     return newState
   }),
 
-  map(last)
-  // share() // for logging
+  map(last),
+  shareReplay(1)
 )
 
 // renderers
