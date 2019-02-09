@@ -1,0 +1,265 @@
+<title>TTScoreKeeper</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<link rel="manifest" href="/ttscorekeeper/manifest.webmanifest">
+<meta name="theme-color" content="#282828"/>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        user-select: none;
+    }
+
+    html, body {
+        height: 100%;
+        font-family: arial;
+    }
+
+    .players {
+        height: 100%;
+        display: flex;
+        flex-flow: column nowrap;
+    }
+
+    .player {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: 1 1 100%;
+    }
+
+    .player-1 {
+        background-color: #d13414;
+    }
+
+    .player-2 {
+        background-color: #1495d1;
+    }
+
+    .score {
+        font-size: 12rem;
+        font-weight: 700;
+        color: white;
+    }
+
+    .set-score {
+        position: absolute;
+        top: 1rem;
+        right: 2rem;
+        font-size: 3rem;
+        font-weight: 700;
+        color: white;
+    }
+
+    .server {
+        display: none;
+        position: absolute;
+        top: 2rem;
+        left: 2rem;
+        width: 3rem;
+        height: 3rem;
+        border-radius: 3rem;
+        background-color: white;
+    }
+
+    .server.current {
+        display: block;
+    }
+
+    .buttons {
+        font-size: 2rem;
+        font-weight: 700;
+        flex: 1 1 20%;
+        display: flex;
+    }
+
+    .pick-server {
+        display: flex;
+        flex-flow: column nowrap;
+        align-items: center;
+        justify-content: center;
+        flex: 1 1 auto;
+        background-color: #282828;
+        color: #444;
+    }
+
+    .pick-server.active {
+        background-color: #ffb70f;
+        color: #282828;
+    }
+
+    .pick-server.active span {
+        animation: .8s shake infinite alternate;
+    }
+
+    .reset {
+        display: flex;
+        flex-flow: column nowrap;
+        align-items: center;
+        justify-content: center;
+        flex: 1 1 auto;
+        background-color: #202020;
+        color: #888;
+    }
+
+    @keyframes shake {
+        0% { transform: skewX(-15deg); }
+        5% { transform: skewX(15deg); }
+        10% { transform: skewX(-15deg); }
+        15% { transform: skewX(15deg); }
+        20% { transform: skewX(0deg); }
+        100% { transform: skewX(0deg); }
+    }
+</style>
+
+<div class="players">
+    <div class="player player-1">
+        <div class="server"></div>
+        <div class="score">0</div>
+        <div class="set-score">0</div>
+    </div>
+
+    <div class="player player-2">
+        <div class="server"></div>
+        <div class="score">0</div>
+        <div class="set-score">0</div>
+    </div>
+
+    <div class="buttons">
+        <div class="pick-server active"><span>pick server</span></div>
+        <div class="reset">reset</div>
+    </div>
+</div>
+
+<script>
+    const pickServer = document.querySelector('.pick-server')
+    const player1 = document.querySelector('.player-1')
+    const player1Score = player1.querySelector('.score')
+    const player1SetScore = player1.querySelector('.set-score')
+    const player1Server = player1.querySelector('.server')
+    const player2 = document.querySelector('.player-2')
+    const player2Score = player2.querySelector('.score')
+    const player2SetScore = player2.querySelector('.set-score')
+    const player2Server = player2.querySelector('.server')
+    const reset = document.querySelector('.reset')
+
+    let canClick = true
+    let server = undefined
+    let serve = 0
+
+    const changeServer = () =>
+        server === 1
+            ? (
+                server = 2,
+                player1Server.classList.remove('current'),
+                player2Server.classList.add('current')
+            )
+            : (
+                server = 1,
+                player2Server.classList.remove('current'),
+                player1Server.classList.add('current')
+            )
+
+    const resetScores = () => {
+        player1Score.innerHTML = 0
+        player2Score.innerHTML = 0
+    }
+
+    const resetAll = () => {
+        resetScores()
+
+        player1SetScore.innerHTML = 0
+        player1Server.classList.remove('current')
+        player2SetScore.innerHTML = 0
+        player2Server.classList.remove('current')
+        pickServer.classList.add('active')
+
+        server = undefined
+        serve = 0
+    }
+
+    pickServer.addEventListener('click', () => {
+        if (server) return
+
+        server = Math.floor(Math.random() * 2) + 1
+
+        server === 1
+            ? player1Server.classList.add('current')
+            : player2Server.classList.add('current')
+
+        pickServer.classList.remove('active')
+    })
+
+    player1.addEventListener('click', () => {
+        if (!server || !canClick) return
+
+        canClick = false
+
+        if (
+            (Number(player1Score.innerHTML) + 1 >= 11 || Number(player2Score.innerHTML) >= 11) &&
+            (Number(player1Score.innerHTML) + 1) - 2 >= Number(player2Score.innerHTML)
+        ) {
+            player1SetScore.innerHTML = Number(player1SetScore.innerHTML) + 1
+
+            server = 2
+            serve = 0
+
+            resetScores()
+
+            setTimeout(() => canClick = true, 1000)
+
+            return
+        }
+
+        player1Score.innerHTML = Number(player1Score.innerHTML) + 1
+
+        Number(player1Score.innerHTML) >= 10 && Number(player2Score.innerHTML) >= 10
+            ? changeServer()
+            : serve + 1 === 2
+                ? (serve = 0, changeServer())
+                : serve = serve + 1
+
+        setTimeout(() => canClick = true, 1000)
+    })
+
+    player2.addEventListener('click', () => {
+        if (!server || !canClick) return
+
+        canClick = false
+
+        if (
+            (Number(player2Score.innerHTML) + 1 >= 11 || Number(player1Score.innerHTML) >= 11) &&
+            (Number(player2Score.innerHTML) + 1) - 2 >= Number(player1Score.innerHTML)
+        ) {
+            player2SetScore.innerHTML = Number(player2SetScore.innerHTML) + 1
+
+            server = 1
+            serve = 0
+
+            resetScores()
+
+            setTimeout(() => canClick = true, 1000)
+
+            return
+        }
+
+        player2Score.innerHTML = Number(player2Score.innerHTML) + 1
+
+        Number(player2Score.innerHTML) >= 10 && Number(player1Score.innerHTML) >= 10
+            ? changeServer()
+            : serve + 1 === 2
+                ? (serve = 0, changeServer())
+                : serve = serve + 1
+
+        setTimeout(() => canClick = true, 1000)
+    })
+
+    reset.addEventListener('click', resetAll)
+
+    navigator.serviceWorker && (
+        window.addEventListener('load', () =>
+            navigator.serviceWorker.register('/ttscorekeeper/sw.js').then(() => {}, () => {})
+        )
+    )
+</script>
