@@ -165,12 +165,14 @@ const store = storeSubject.pipe(
       ]
     ])(type)
 
-    console.log('type: ', type)
-    console.log('prev state:')
-    console.table(last(state))
-    console.log('next state:')
-    console.table(last(newState))
-    console.log('\n-------------------------------------------\n\n')
+    console.log('\n')
+
+    console.log(
+      `%c${type}`,
+      'color: #222; background-color: #fff0d3; font-weight: 700; padding: 0.5rem'
+    )
+
+    console.table({ prevState: last(state), nextState: last(newState) })
 
     return newState
   }),
