@@ -249,8 +249,8 @@ store
   .subscribe(
     sound =>
       sound
-        ? (soundButton.innerHTML = '&#128264;')
-        : (soundButton.innerHTML = '&#128263;')
+        ? soundButton.classList.remove('muted')
+        : soundButton.classList.add('muted')
   )
 
 // click listeners
