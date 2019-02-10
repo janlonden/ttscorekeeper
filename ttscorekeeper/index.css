@@ -82,7 +82,16 @@ body {
   color: #ccc;
 }
 
-.reset-button {
+.sound-button {
   background-color: #202020;
   color: #888;
+}
+
+.sound-button.muted {
+  text-decoration: line-through;
+}
+
+.reset-button {
+  background-color: #101010;
+  color: #444;
 }
