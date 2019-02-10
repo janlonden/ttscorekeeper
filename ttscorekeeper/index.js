@@ -248,7 +248,9 @@ store
 
   .subscribe(
     sound =>
-      sound ? (soundButton.innerHTML = '🔈') : (soundButton.innerHTML = '🔇')
+      sound
+        ? (soundButton.innerHTML = '&#128264;')
+        : (soundButton.innerHTML = '&#128263;')
   )
 
 // click listeners
