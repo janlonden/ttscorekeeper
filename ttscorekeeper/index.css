@@ -8,6 +8,7 @@ html,
 body {
   height: 100%;
   font-family: arial;
+  color: #f7f1e3;
 }
 
 .container {
@@ -25,17 +26,16 @@ body {
 }
 
 .player-1 {
-  background-color: #d13414;
+  background-color: #e74c3c;
 }
 
 .player-2 {
-  background-color: #1495d1;
+  background-color: #2c3e50;
 }
 
 .score {
   font-size: 12rem;
   font-weight: 700;
-  color: white;
 }
 
 .set-score {
@@ -44,7 +44,6 @@ body {
   right: 2rem;
   font-size: 3rem;
   font-weight: 700;
-  color: white;
 }
 
 .server {
@@ -55,7 +54,7 @@ body {
   width: 3rem;
   height: 3rem;
   border-radius: 3rem;
-  background-color: white;
+  background-color: #f7f1e3;
 }
 
 .server.current {
@@ -65,33 +64,15 @@ body {
 .buttons {
   display: flex;
   flex: 1 1 20%;
+  background-color: #ffb142;
+  color: #383430;
 }
 
 .button {
-  font-size: 2rem;
-  font-weight: 700;
+  font-size: 2.5rem;
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
   justify-content: center;
-  flex: 1 1 auto;
-}
-
-.undo-button {
-  background-color: #303030;
-  color: #ccc;
-}
-
-.sound-button {
-  background-color: #202020;
-  color: #888;
-}
-
-.sound-button.muted {
-  text-decoration: line-through;
-}
-
-.reset-button {
-  background-color: #101010;
-  color: #444;
+  flex: 0 0 33.33%;
 }
