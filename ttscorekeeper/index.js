@@ -77,14 +77,16 @@ const shouldChangeServer = either(
   bothScoresAre10OrMore
 )
 
-const createGameState = ({ player }) => ({ sound }) => ({
-  player1Score,
-  player1SetScore,
-  player2Score,
-  player2SetScore,
-  server,
-  setServer
-}) => {
+const createGameState = ({ player }, { game, sound }) => {
+  const {
+    player1Score,
+    player1SetScore,
+    player2Score,
+    player2SetScore,
+    server,
+    setServer
+  } = last(game)
+
   const isPlayer1 = identical(player, 1)
   const newPlayer1Score = player1Score + 1
   const newPlayer2Score = player2Score + 1
@@ -157,11 +159,7 @@ const createInitialGameState = () => {
 }
 
 const store = storeSubject.pipe(
-  startWith({
-    game: [createInitialGameState()],
-    sound: true
-  }),
-
+  startWith({ game: [createInitialGameState()], sound: true }),
   throttleTime(250),
 
   scan((state, type) => {
@@ -169,51 +167,25 @@ const store = storeSubject.pipe(
       [
         identical('player 1 scores'),
         () =>
-          evolve(
-            {
-              game: compose(
-                append,
-                createGameState({ player: 1 })(state),
-                last
-              )(prop('game', state))
-            },
-            state
-          )
+          evolve({ game: append(createGameState({ player: 1 }, state)) }, state)
       ],
 
       [
         identical('player 2 scores'),
         () =>
-          evolve(
-            {
-              game: compose(
-                append,
-                createGameState({ player: 2 })(state),
-                last
-              )(prop('game', state))
-            },
-            state
-          )
+          evolve({ game: append(createGameState({ player: 2 }, state)) }, state)
       ],
 
       [
         identical('reset'),
-        () =>
-          evolve(
-            {
-              game: append(createInitialGameState())
-            },
-            state
-          )
+        () => evolve({ game: append(createInitialGameState()) }, state)
       ],
 
       [
         identical('undo'),
         () =>
           evolve(
-            {
-              game: ifElse(o(gte(__, 2), length), dropLast(1), identity)
-            },
+            { game: ifElse(o(gte(__, 2), length), dropLast(1), identity) },
             state
           )
       ],
