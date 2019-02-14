@@ -77,7 +77,7 @@ const shouldChangeServer = either(
   bothScoresAre10OrMore
 )
 
-const createGameState = ({ player }, { game, sound }) => {
+const createGameState = ({ player, game, sound }) => {
   const {
     player1Score,
     player1SetScore,
@@ -167,13 +167,13 @@ const store = storeSubject.pipe(
       [
         identical('player 1 scores'),
         () =>
-          evolve({ game: append(createGameState({ player: 1 }, state)) }, state)
+          evolve({ game: append(createGameState({ player: 1, ...state })) }, state)
       ],
 
       [
         identical('player 2 scores'),
         () =>
-          evolve({ game: append(createGameState({ player: 2 }, state)) }, state)
+          evolve({ game: append(createGameState({ player: 2, ...state })) }, state)
       ],
 
       [
