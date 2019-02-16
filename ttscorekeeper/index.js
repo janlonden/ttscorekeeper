@@ -167,13 +167,19 @@ const store = storeSubject.pipe(
       [
         identical('player 1 scores'),
         () =>
-          evolve({ game: append(createGameState({ player: 1, ...state })) }, state)
+          evolve(
+            { game: append(createGameState({ player: 1, ...state })) },
+            state
+          )
       ],
 
       [
         identical('player 2 scores'),
         () =>
-          evolve({ game: append(createGameState({ player: 2, ...state })) }, state)
+          evolve(
+            { game: append(createGameState({ player: 2, ...state })) },
+            state
+          )
       ],
 
       [
@@ -193,17 +199,10 @@ const store = storeSubject.pipe(
       [identical('sound'), () => evolve({ sound: not }, state)]
     ])(type)
 
+    console.log(`%c${type}`, 'font-weight: 700')
+    console.log('%cprevState: ', 'color: grey', state)
+    console.log('%cnextState: ', 'color: green', newState)
     console.log('\n')
-
-    console.log(
-      `%c${type}`,
-      'color: #222; background-color: #fff0d3; font-weight: 700; padding: 0.5rem'
-    )
-
-    console.log('%cprevState: ', 'color: #d13414')
-    console.log(state)
-    console.log('%cnextState: ', 'color: #1495d1')
-    console.log(newState)
 
     return newState
   }),
