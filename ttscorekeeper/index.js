@@ -66,11 +66,8 @@ const announce = what => {
 const storeSubject = new Subject()
 const someoneHas11OrMore = any(gte(__, 11))
 const bothScoresAre10OrMore = all(gte(__, 10))
-
-const combinedScoreIsAtLeast2AndEven = o(
-  both(gte(__, 2), o(identical(0), modulo(__, 2))),
-  sum
-)
+const isEven = o(identical(0), modulo(__, 2))
+const combinedScoreIsAtLeast2AndEven = o(both(gte(__, 2), isEven), sum)
 
 const shouldChangeServer = either(
   combinedScoreIsAtLeast2AndEven,
